@@ -743,7 +743,7 @@ EOF
     # Warn the user if the transaction includes an untrusted delegate call.
     warn_if_delegate_call "$operation" "$to"
     # Check for a potential gas token attack.
-    check_gas_token_attack "$gas_price" "$gas_token" "$refund_receiver"
+    # check_gas_token_attack "$gas_price" "$gas_token" "$refund_receiver"
 
     # Calculate and display the hashes.
     echo "==================================="
