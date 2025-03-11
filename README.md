@@ -14,6 +14,7 @@ This Bash [script](./safe_hashes.sh) calculates the Safe transaction hashes by r
 > [!IMPORTANT]
 > All Safe multisig versions starting from `0.1.0` and newer are supported.
 
+- [Security Best Practices for Using This Script](#security-best-practices-for-using-this-script)
 - [Supported Networks](#supported-networks)
 - [Usage](#usage)
   - [macOS Users: Upgrading Bash](#macos-users-upgrading-bash)
@@ -24,6 +25,14 @@ This Bash [script](./safe_hashes.sh) calculates the Safe transaction hashes by r
 - [Trust Assumptions](#trust-assumptions)
 - [Community-Maintained User Interface Implementations](#community-maintained-user-interface-implementations)
 - [💸 Donation](#-donation)
+
+## Security Best Practices for Using This Script
+
+**Read This Before Proceeding!**
+
+- **Rule 1**: Use a dedicated device running a secure operating system, such as [Tails](https://tails.net) or [Qubes OS](https://www.qubes-os.org), solely for verifying and signing transactions. This device **must not** be used for any other activities, such as browsing, messaging, emailing, or social media. It should only be powered on to connect to the multisig interface, execute this Bash [script](./safe_hashes.sh), verify the transaction, sign it, and then shut down immediately afterward. If you feel the urge to check X, don't, or I'll appear in your dreams!
+- **Rule 2**: Always independently decode and verify transaction calldata. Don't sign _untrusted_ delegate calls (see the main [script](./safe_hashes.sh) for a list of trusted `delegatecall`able contracts). Do not copy calldata from the Safe UI's copy button. Instead, manually copy the calldata directly from your wallet extension (e.g., MetaMask). You can decode the calldata using Etherscan's [Input Data Decoder](https://etherscan.io/inputdatadecoder). For further guidance on verifying Safe wallet transactions and performing basic transaction checks, **READ THESE RESOURCES AND ACT ON THEM**: [How to verify Safe wallet transactions on a hardware wallet](https://help.safe.global/en/articles/276344-how-to-verify-safe-wallet-transactions-on-a-hardware-wallet) and [How to perform basic transaction checks on Safe wallet](https://help.safe.global/en/articles/276343-how-to-perform-basic-transactions-checks-on-safe-wallet). **Do not skip this step!**
+- **Important**: Adhere strictly to Rule 1 and Rule 2.
 
 ## Supported Networks
 
