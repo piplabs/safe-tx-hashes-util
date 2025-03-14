@@ -1,5 +1,6 @@
 # Safe Multisig Transaction Hashes <!-- omit from toc -->
 
+[![👮‍♂️ Sanity checks](https://github.com/pcaversaccio/safe-tx-hashes-util/actions/workflows/checks.yml/badge.svg)](https://github.com/pcaversaccio/safe-tx-hashes-util/actions/workflows/checks.yml)
 [![License: AGPL-3.0-only](https://img.shields.io/badge/License-AGPL--3.0--only-blue)](https://www.gnu.org/licenses/agpl-3.0)
 
 ```console
