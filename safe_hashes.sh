@@ -198,9 +198,9 @@ declare -A -r CHAIN_IDS=(
 # Utility function to display the usage information.
 usage() {
     cat <<EOF
-Usage: $0 [--help] [--list-networks]
-       --network <network> --address <address> --nonce <nonce>
-       --message <file> --interactive
+Usage: $0 [--help] [--version] [--list-networks]
+       --network <network> --address <address> [--nonce <nonce>]
+       [--message <file>] [--interactive]
 
 Options:
   --help              Display this help message
