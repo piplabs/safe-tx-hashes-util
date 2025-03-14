@@ -67,7 +67,7 @@ This Bash [script](./safe_hashes.sh) calculates the Safe transaction hashes by r
 > For macOS users, please refer to the [macOS Users: Upgrading Bash](#macos-users-upgrading-bash) section.
 
 ```console
-./safe_hashes.sh [--help] [--list-networks] --network <network> --address <address> --nonce <nonce> --message <file> --interactive
+./safe_hashes.sh [--help] [--version] [--list-networks] --network <network> --address <address> [--nonce <nonce>] [--message <file>] [--interactive]
 ```
 
 **Options:**
