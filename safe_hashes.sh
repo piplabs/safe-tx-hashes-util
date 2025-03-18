@@ -1139,6 +1139,8 @@ EOF
 		echo -e "${RED}Both \`--nested-safe-address\` and \`--nested-safe-nonce\` must be provided for transaction hashes!${RESET}" >&2
 		exit 1
 	fi
+
+	exit 0
 }
 
 calculate_safe_hashes "$@"
