@@ -22,6 +22,7 @@ This Bash [script](./safe_hashes.sh) calculates the Safe transaction hashes by r
     - [Optional: Set the New Bash as Your Default Shell](#optional-set-the-new-bash-as-your-default-shell)
 - [Safe Transaction Hashes](#safe-transaction-hashes)
   - [Interactive Mode](#interactive-mode)
+  - [Nested Safes](#nested-safes)
 - [Safe Message Hashes](#safe-message-hashes)
 - [Trust Assumptions](#trust-assumptions)
 - [Community-Maintained User Interface Implementations](#community-maintained-user-interface-implementations)
@@ -68,7 +69,9 @@ This Bash [script](./safe_hashes.sh) calculates the Safe transaction hashes by r
 > For macOS users, please refer to the [macOS Users: Upgrading Bash](#macos-users-upgrading-bash) section.
 
 ```console
-./safe_hashes.sh [--help] [--version] [--list-networks] --network <network> --address <address> [--nonce <nonce>] [--message <file>] [--interactive]
+./safe_hashes.sh [--help] [--version] [--list-networks] --network <network> --address <address>
+                 [--nonce <nonce>] [--nested-safe-address <address>] [--nested-safe-nonce <nonce>]
+                 [--message <file>] [--interactive]
 ```
 
 **Options:**
@@ -76,9 +79,11 @@ This Bash [script](./safe_hashes.sh) calculates the Safe transaction hashes by r
 - `--help`: Display this help message.
 - `--version`: Display the latest local commit hash (=version) of the script.
 - `--list-networks`: List all supported networks and their chain IDs.
-- `--network <network>`: Specify the network (e.g., `ethereum`, `polygon`).
-- `--address <address>`: Specify the Safe multisig address.
+- `--network <network>`: Specify the network (e.g., `ethereum`, `polygon`) (**required**).
+- `--address <address>`: Specify the Safe multisig address (**required**).
 - `--nonce <nonce>`: Specify the transaction nonce (required for transaction hashes).
+- `--nested-safe-address <address>`: Specify the nested Safe multisig address (optional for transaction hashes or off-chain message hashes).
+- `--nested-safe-nonce <nonce>`: Specify the nonce for the nested Safe transaction (optional for transaction hashes).
 - `--message <file>`: Specify the message file (required for off-chain message hashes).
 - `--interactive`: Use the interactive mode (optional for transaction hashes).
 
@@ -307,6 +312,104 @@ Message hash: 0xC7E826933DA60E6AC3E2246ED0563A26A920A65BEAA9089D784AC96234141BB3
 Safe transaction hash: 0xc818fceb1cace51c1a4039c4c66fc73d95eccc298104c9c52debac604b9f4e04
 ```
 
+### Nested Safes
+
+This [script](./safe_hashes.sh) supports calculating the Safe transaction hashes for nested Safe (i.e. use a Safe as a signatory to another Safe) approval transactions. When a nested Safe needs to approve a transaction on the primary Safe, it must call the [`approveHash(bytes32)`](https://github.com/safe-global/safe-smart-account/blob/bdcfce3a76c4d1dfb256ac2ca971be7cfd6e493a/contracts/Safe.sol#L372-L379) function on the target Safe with the Safe transaction hash to approve:
+
+```solidity
+function approveHash(bytes32 hashToApprove) external override {
+    if (owners[msg.sender] == address(0)) revertWithError("GS030");
+    approvedHashes[msg.sender][hashToApprove] = 1;
+    emit ApproveHash(hashToApprove, msg.sender);
+}
+```
+
+To calculate both the primary transaction hash and the nested Safe `approveHash` transaction hash, specify the `network`, `address`, `nonce`, `nested-safe-address`, and `nested-safe-nonce` parameters:
+
+```console
+./safe_hashes.sh --network sepolia --address 0x657ff0D4eC65D82b2bC1247b0a558bcd2f80A0f1 --nonce 4 --nested-safe-address 0x6bc56d6CE87C86CB0756c616bECFD3Cd32b09251 --nested-safe-nonce 4
+```
+
+The [script](./safe_hashes.sh) will first calculate and display the primary transaction hashes. Then, it will construct and calculate the hashes for the `approveHash` transaction:
+
+```console
+===================================
+= Selected Network Configurations =
+===================================
+
+Network: sepolia
+Chain ID: 11155111
+
+========================================
+= Transaction Data and Computed Hashes =
+========================================
+
+Primary Safe Transaction Data and Computed Hashes
+
+> Transaction Data:
+Multisig address: 0x657ff0D4eC65D82b2bC1247b0a558bcd2f80A0f1
+To: 0x255C3912f91eF11bFDadd405F13144a823Da8cc5
+Value: 100000000000000000
+Data: 0x
+Operation: Call
+Safe Transaction Gas: 0
+Base Gas: 0
+Gas Price: 0
+Gas Token: 0x0000000000000000000000000000000000000000
+Refund Receiver: 0x0000000000000000000000000000000000000000
+Nonce: 4
+Encoded message: 0xbb8310d486368db6bd6f849402fdd73ad53d316b5a4b2644ad6efe0f941286d8000000000000000000000000255c3912f91ef11bfdadd405f13144a823da8cc5000000000000000000000000000000000000000000000000016345785d8a0000c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a4700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004
+Method: 0x (ETH Transfer)
+Parameters: []
+
+> Hashes:
+Domain hash: 0x611379C19940CAEE095CDB12BEBE6A9FA9ABB74CDB1FBD7377C49A1F198DC24F
+Message hash: 0x565BBA8B51924FFA64953596D0A2DD5C2CAD39649F7DE0BF2C8DBC903BD03258
+Safe transaction hash: 0xcb8bbe7bf8f8a1f3f57658e450d07d4422356ac042d96a87ba425b19e67a78a1
+
+Nested Safe `approveHash` Transaction Data and Computed Hashes
+
+The specified nested Safe at 0x6bc56d6CE87C86CB0756c616bECFD3Cd32b09251 will use the following transaction to approve the primary transaction.
+
+> Transaction Data:
+Multisig address: 0x6bc56d6CE87C86CB0756c616bECFD3Cd32b09251
+To: 0x657ff0D4eC65D82b2bC1247b0a558bcd2f80A0f1
+Value: 0
+Data: 0xd4d9bdcdcb8bbe7bf8f8a1f3f57658e450d07d4422356ac042d96a87ba425b19e67a78a1
+Operation: Call
+Safe Transaction Gas: 0
+Base Gas: 0
+Gas Price: 0
+Gas Token: 0x0000000000000000000000000000000000000000
+Refund Receiver: 0x0000000000000000000000000000000000000000
+Nonce: 4
+Encoded message: 0xbb8310d486368db6bd6f849402fdd73ad53d316b5a4b2644ad6efe0f941286d8000000000000000000000000657ff0d4ec65d82b2bc1247b0a558bcd2f80a0f10000000000000000000000000000000000000000000000000000000000000000873d41be4be44b68a3ad9cb19bf644be0f02392498d3a81d46d9f0741c9426640000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004
+Method: approveHash
+Parameters: [
+  {
+    "name": "hashToApprove",
+    "type": "bytes32",
+    "value": "0xcb8bbe7bf8f8a1f3f57658e450d07d4422356ac042d96a87ba425b19e67a78a1"
+  }
+]
+
+> Hashes:
+Domain hash: 0x55F6C329A7834E2A4E789F5526F328FA75D14FE75B97B0001BE40CAF46CA92A1
+Message hash: 0xCD411EE5D49344391EF8D37B76E19DFACF505BBB20E856AC907ACB5958ECBDF0
+Safe transaction hash: 0x86eb3f93f2670d119a4ecb8eeaa4dafe31a28abcafe06688d47e195a3dd7abb0
+```
+
+The nested Safe `approveHash` transaction is constructed with the following parameters:
+
+- `to`: The primary Safe multisig address.
+- `data`: Encoded `approveHash(bytes32)` function call with the Safe transaction hash as argument.
+- `value`: Set to `0`.
+- `operation`: Set to `0` (i.e. `CALL`).
+- All other parameters are set to their default values (`0` or the zero address `0x0000000000000000000000000000000000000000`).
+
+> [!NOTE]
+> The `--interactive` mode supports nested Safe transactions but only allows overriding the nested Safe version, not other transaction values in the `approveHash` transaction.
+
 ## Safe Message Hashes
 
 > [!IMPORTANT]
@@ -365,11 +468,14 @@ Nonce:
 ea499f2f-fdbc-4d04-92c4-b60aba887e06
 
 > Hashes:
-Raw message hash: 0xcb1a9208c1a7c191185938c7d304ed01db68677eea4e689d688469aa72e34236
+Safe message: 0xcb1a9208c1a7c191185938c7d304ed01db68677eea4e689d688469aa72e34236
 Domain hash: 0x611379C19940CAEE095CDB12BEBE6A9FA9ABB74CDB1FBD7377C49A1F198DC24F
 Message hash: 0xA5D2F507A16279357446768DB4BD47A03BCA0B6ACAC4632A4C2C96AF20D6F6E5
 Safe message hash: 0x1866b559f56261ada63528391b93a1fe8e2e33baf7cace94fc6b42202d16ea08
 ```
+
+> [!NOTE]
+> The `--interactive` mode is not supported when calculating Safe message hashes. If using a nested Safe as the signer for the primary message, you must provide the `--nested-safe-address` argument along with the other parameters to retrieve the additional computed hashes for the nested Safe.
 
 ## Trust Assumptions
 
