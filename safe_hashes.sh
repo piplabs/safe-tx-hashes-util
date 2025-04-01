@@ -88,33 +88,39 @@ readonly SAFE_TX_TYPEHASH_OLD="0x14d461bc7412367e924637b363c7bf29b8f47e2f84869f4
 readonly SAFE_MSG_TYPEHASH="0x60b3cbf8b4a223d68d641b3b6ddf9a298e7f33710cf3d3a9d1146b5a6150fbca"
 
 # Set the trusted (i.e. for delegate calls) `MultiSendCallOnly` addresses:
-# MultiSendCallOnly `v1.3.0` (canonical): https://github.com/safe-global/safe-deployments/blob/4e25b09f62a4acec92b4ebe6b8ae496b3852d440/src/assets/v1.3.0/multi_send_call_only.json#L7,
-# MultiSendCallOnly `v1.3.0` (eip155): https://github.com/safe-global/safe-deployments/blob/4e25b09f62a4acec92b4ebe6b8ae496b3852d440/src/assets/v1.3.0/multi_send_call_only.json#L11,
-# MultiSendCallOnly `v1.3.0` (zksync): https://github.com/safe-global/safe-deployments/blob/4e25b09f62a4acec92b4ebe6b8ae496b3852d440/src/assets/v1.3.0/multi_send_call_only.json#L15,
-# MultiSendCallOnly `v1.4.1` (canonical): https://github.com/safe-global/safe-deployments/blob/4e25b09f62a4acec92b4ebe6b8ae496b3852d440/src/assets/v1.4.1/multi_send_call_only.json#L7.
+# MultiSendCallOnly `v1.3.0` (canonical): https://github.com/safe-global/safe-deployments/blob/cc1ac692a5fcc70696cb66bb94d1c2cad3ec68ee/src/assets/v1.3.0/multi_send_call_only.json#L7,
+# MultiSendCallOnly `v1.3.0` (eip155): https://github.com/safe-global/safe-deployments/blob/cc1ac692a5fcc70696cb66bb94d1c2cad3ec68ee/src/assets/v1.3.0/multi_send_call_only.json#L11,
+# MultiSendCallOnly `v1.3.0` (zksync): https://github.com/safe-global/safe-deployments/blob/cc1ac692a5fcc70696cb66bb94d1c2cad3ec68ee/src/assets/v1.3.0/multi_send_call_only.json#L15,
+# MultiSendCallOnly `v1.4.1` (canonical): https://github.com/safe-global/safe-deployments/blob/cc1ac692a5fcc70696cb66bb94d1c2cad3ec68ee/src/assets/v1.4.1/multi_send_call_only.json#L7,
+# MultiSendCallOnly `v1.4.1` (zksync): https://github.com/safe-global/safe-deployments/blob/cc1ac692a5fcc70696cb66bb94d1c2cad3ec68ee/src/assets/v1.4.1/multi_send_call_only.json#L11.
 declare -a -r MultiSendCallOnly=(
 	"0x40A2aCCbd92BCA938b02010E17A5b8929b49130D" # MultiSendCallOnly `v1.3.0` (canonical).
 	"0xA1dabEF33b3B82c7814B6D82A79e50F4AC44102B" # MultiSendCallOnly `v1.3.0` (eip155).
 	"0xf220D3b4DFb23C4ade8C88E526C1353AbAcbC38F" # MultiSendCallOnly `v1.3.0` (zksync).
 	"0x9641d764fc13c8B624c04430C7356C1C7C8102e2" # MultiSendCallOnly `v1.4.1` (canonical).
+	"0x0408EF011960d02349d50286D20531229BCef773" # MultiSendCallOnly `v1.4.1` (zksync).
 )
 
 # Set the trusted (i.e. for delegate calls) `SafeMigration` addresses:
-# SafeMigration `v1.4.1` (canonical): https://github.com/safe-global/safe-deployments/blob/4e25b09f62a4acec92b4ebe6b8ae496b3852d440/src/assets/v1.4.1/safe_migration.json#L7.
+# SafeMigration `v1.4.1` (canonical): https://github.com/safe-global/safe-deployments/blob/cc1ac692a5fcc70696cb66bb94d1c2cad3ec68ee/src/assets/v1.4.1/safe_migration.json#L7,
+# SafeMigration `v1.4.1` (zksync): https://github.com/safe-global/safe-deployments/blob/cc1ac692a5fcc70696cb66bb94d1c2cad3ec68ee/src/assets/v1.4.1/safe_migration.json#L11.
 declare -a -r SafeMigration=(
 	"0x526643F69b81B008F46d95CD5ced5eC0edFFDaC6" # SafeMigration `v1.4.1` (canonical).
+	"0x817756C6c555A94BCEE39eB5a102AbC1678b09A7" # SafeMigration `v1.4.1` (zksync).
 )
 
 # Set the trusted (i.e. for delegate calls) `SignMessageLib` addresses:
-# SignMessageLib `v1.3.0` (canonical): https://github.com/safe-global/safe-deployments/blob/4e25b09f62a4acec92b4ebe6b8ae496b3852d440/src/assets/v1.3.0/sign_message_lib.json#L7,
-# SignMessageLib `v1.3.0` (eip155): https://github.com/safe-global/safe-deployments/blob/4e25b09f62a4acec92b4ebe6b8ae496b3852d440/src/assets/v1.3.0/sign_message_lib.json#L11,
-# SignMessageLib `v1.3.0` (zksync): https://github.com/safe-global/safe-deployments/blob/4e25b09f62a4acec92b4ebe6b8ae496b3852d440/src/assets/v1.3.0/sign_message_lib.json#L15,
-# SignMessageLib `v1.4.1` (canonical): https://github.com/safe-global/safe-deployments/blob/4e25b09f62a4acec92b4ebe6b8ae496b3852d440/src/assets/v1.4.1/sign_message_lib.json#L7.
+# SignMessageLib `v1.3.0` (canonical): https://github.com/safe-global/safe-deployments/blob/cc1ac692a5fcc70696cb66bb94d1c2cad3ec68ee/src/assets/v1.3.0/sign_message_lib.json#L7,
+# SignMessageLib `v1.3.0` (eip155): https://github.com/safe-global/safe-deployments/blob/cc1ac692a5fcc70696cb66bb94d1c2cad3ec68ee/src/assets/v1.3.0/sign_message_lib.json#L11,
+# SignMessageLib `v1.3.0` (zksync): https://github.com/safe-global/safe-deployments/blob/cc1ac692a5fcc70696cb66bb94d1c2cad3ec68ee/src/assets/v1.3.0/sign_message_lib.json#L15,
+# SignMessageLib `v1.4.1` (canonical): https://github.com/safe-global/safe-deployments/blob/cc1ac692a5fcc70696cb66bb94d1c2cad3ec68ee/src/assets/v1.4.1/sign_message_lib.json#L7,
+# SignMessageLib `v1.4.1` (zksync): https://github.com/safe-global/safe-deployments/blob/cc1ac692a5fcc70696cb66bb94d1c2cad3ec68ee/src/assets/v1.4.1/sign_message_lib.json#L11.
 declare -a -r SignMessageLib=(
 	"0xA65387F16B013cf2Af4605Ad8aA5ec25a2cbA3a2" # SignMessageLib `v1.3.0` (canonical).
 	"0x98FFBBF51bb33A056B08ddf711f289936AafF717" # SignMessageLib `v1.3.0` (eip155).
 	"0x357147caf9C0cCa67DfA0CF5369318d8193c8407" # SignMessageLib `v1.3.0` (zksync).
 	"0xd53cd0aB83D845Ac265BE939c57F53AD838012c9" # SignMessageLib `v1.4.1` (canonical).
+	"0xAca1ec0a1A575CDCCF1DC3d5d296202Eb6061888" # SignMessageLib `v1.4.1` (zksync).
 )
 
 # Set the trusted (i.e. for delegate calls) contract addresses.
