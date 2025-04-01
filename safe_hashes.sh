@@ -118,7 +118,7 @@ declare -a -r SignMessageLib=(
 )
 
 # Set the trusted (i.e. for delegate calls) contract addresses.
-# See: https://github.com/safe-global/safe-transaction-service/blob/c3b42f0bebff74b99fcdd958aee54b149e27eca5/safe_transaction_service/contracts/management/commands/setup_safe_contracts.py#L10-L16.
+# See: https://github.com/safe-global/safe-transaction-service/blob/0e6da1d19cec56f8e2834e6159f2d25733c64843/safe_transaction_service/contracts/management/commands/setup_safe_contracts.py#L15-L19.
 declare -A -r TRUSTED_FOR_DELEGATE_CALL=(
 	["MultiSendCallOnly"]="${MultiSendCallOnly[@]}"
 	["SafeMigration"]="${SafeMigration[@]}"
